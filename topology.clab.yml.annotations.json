@@ -1,0 +1,88 @@
+{
+  "freeTextAnnotations": [],
+  "freeShapeAnnotations": [],
+  "trafficRateAnnotations": [],
+  "groupStyleAnnotations": [],
+  "networkNodeAnnotations": [],
+  "nodeAnnotations": [
+    {
+      "id": "ceos1",
+      "position": {
+        "x": 380,
+        "y": 360
+      },
+      "icon": "pe",
+      "iconColor": "#16325b",
+      "iconCornerRadius": 0
+    },
+    {
+      "id": "ceos2",
+      "position": {
+        "x": 600,
+        "y": 360
+      },
+      "icon": "pe",
+      "iconColor": "#16325b",
+      "iconCornerRadius": 0
+    },
+    {
+      "id": "bbs01",
+      "position": {
+        "x": 280,
+        "y": 420
+      }
+    },
+    {
+      "id": "bbs02",
+      "position": {
+        "x": 280,
+        "y": 260
+      }
+    },
+    {
+      "id": "bbs03",
+      "position": {
+        "x": 460,
+        "y": 420
+      }
+    },
+    {
+      "id": "bbs04",
+      "position": {
+        "x": 460,
+        "y": 260
+      }
+    },
+    {
+      "id": "core-muc01",
+      "position": {
+        "x": 140,
+        "y": 260
+      }
+    },
+    {
+      "id": "core-muc02",
+      "position": {
+        "x": 140,
+        "y": 420
+      }
+    },
+    {
+      "id": "core-fra01",
+      "position": {
+        "x": 600,
+        "y": 260
+      }
+    },
+    {
+      "id": "core-fra02",
+      "position": {
+        "x": 600,
+        "y": 420
+      }
+    }
+  ],
+  "edgeAnnotations": [],
+  "aliasEndpointAnnotations": [],
+  "viewerSettings": {}
+}

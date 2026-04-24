@@ -1,0 +1,128 @@
+---
+name: wan-clab
+prefix: ""
+
+mgmt:
+  network: wan-mgmt
+  ipv4-subnet: 10.14.14.0/24
+  ipv4-gw: 10.14.14.254
+
+topology:
+  groups:
+    arista:
+      kind: arista_ceos
+      image: arista/ceos:latest
+      enforce-startup-config: true
+
+  nodes:
+  # Backbone Switches
+    bbs01:
+      group: arista
+      mgmt-ipv4: 10.14.14.1
+      startup-config: configs/ceos-init.cfg
+      env:
+        MODEL_NAME: DCS-7280SR3-48YC8
+      binds:
+        - CL_mappings/DCS-7280SR3-48YC8_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+        - CL_containerlab_onboarding_token:/mnt/flash/token:ro
+        - CL_configs/bbs01_ceos_config:/mnt/flash/ceos-config:ro
+    bbs02:
+      group: arista
+      mgmt-ipv4: 10.14.14.2
+      startup-config: configs/ceos-init.cfg
+      env:
+        MODEL_NAME: DCS-7280SR3-48YC8
+      binds:
+        - CL_mappings/DCS-7280SR3-48YC8_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+        - CL_containerlab_onboarding_token:/mnt/flash/token:ro
+        - CL_configs/bbs02_ceos_config:/mnt/flash/ceos-config:ro
+    bbs03:
+      group: arista
+      mgmt-ipv4: 10.14.14.3
+      startup-config: configs/ceos-init.cfg
+      env:
+        MODEL_NAME: DCS-7280SR3-48YC8
+      binds:
+        - CL_mappings/DCS-7280SR3-48YC8_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+        - CL_containerlab_onboarding_token:/mnt/flash/token:ro
+        - CL_configs/bbs03_ceos_config:/mnt/flash/ceos-config:ro
+    bbs04:
+      group: arista
+      mgmt-ipv4: 10.14.14.4
+      startup-config: configs/ceos-init.cfg
+      env:
+        MODEL_NAME: DCS-7280SR3-48YC8
+      binds:
+        - CL_mappings/DCS-7280SR3-48YC8_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+        - CL_containerlab_onboarding_token:/mnt/flash/token:ro
+        - CL_configs/bbs04_ceos_config:/mnt/flash/ceos-config:ro
+
+  # Core
+    core-muc01:
+      group: arista
+      mgmt-ipv4: 10.14.14.10
+      startup-config: configs/ceos-init.cfg
+      env:
+        MODEL_NAME: DCS-7280SR3-48YC8
+      binds:
+        - CL_mappings/DCS-7280SR3-48YC8_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+        - CL_containerlab_onboarding_token:/mnt/flash/token:ro
+        - CL_configs/core-muc01_ceos_config:/mnt/flash/ceos-config:ro
+    core-muc02:
+      group: arista
+      mgmt-ipv4: 10.14.14.11
+      startup-config: configs/ceos-init.cfg
+      env:
+        MODEL_NAME: DCS-7280SR3-48YC8
+      binds:
+        - CL_mappings/DCS-7280SR3-48YC8_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+        - CL_containerlab_onboarding_token:/mnt/flash/token:ro
+        - CL_configs/core-muc02_ceos_config:/mnt/flash/ceos-config:ro
+    core-fra01:
+      group: arista
+      mgmt-ipv4: 10.14.14.12
+      startup-config: configs/ceos-init.cfg
+      env:
+        MODEL_NAME: DCS-7280SR3-48YC8
+      binds:
+        - CL_mappings/DCS-7280SR3-48YC8_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+        - CL_containerlab_onboarding_token:/mnt/flash/token:ro
+        - CL_configs/core-fra01_ceos_config:/mnt/flash/ceos-config:ro
+    core-fra02:
+      group: arista
+      mgmt-ipv4: 10.14.14.13
+      startup-config: configs/ceos-init.cfg
+      env:
+        MODEL_NAME: DCS-7280SR3-48YC8
+      binds:
+        - CL_mappings/DCS-7280SR3-48YC8_EosIntfMapping.json:/mnt/flash/EosIntfMapping.json:ro
+        - CL_containerlab_onboarding_token:/mnt/flash/token:ro
+        - CL_configs/core-fra02_ceos_config:/mnt/flash/ceos-config:ro
+
+  
+  links:
+    # BBS
+    # Each link in below topology is actually two links
+    #   BBS01 ------ BBS03
+    #          \  /
+    #          /  \
+    #   BBS02 ------ BBS04
+    #
+    - endpoints: [ "bbs01:eth1", "bbs03:eth1" ]
+    - endpoints: [ "bbs01:eth2", "bbs03:eth2" ]
+    - endpoints: [ "bbs01:eth3", "bbs04:eth1" ]
+    - endpoints: [ "bbs01:eth4", "bbs04:eth2" ]
+    - endpoints: [ "bbs02:eth1", "bbs03:eth3" ]
+    - endpoints: [ "bbs02:eth2", "bbs03:eth4" ]
+    - endpoints: [ "bbs02:eth3", "bbs04:eth3" ]
+    - endpoints: [ "bbs02:eth4", "bbs04:eth4" ]
+    # CORES
+    # Each core is connected to both BBS switches
+    - endpoints: [ "core-muc01:eth1", "bbs01:eth5" ]
+    - endpoints: [ "core-muc01:eth2", "bbs02:eth5" ]
+    - endpoints: [ "core-muc02:eth1", "bbs01:eth6" ]
+    - endpoints: [ "core-muc02:eth2", "bbs02:eth6" ]
+    - endpoints: [ "core-fra01:eth1", "bbs03:eth5" ]
+    - endpoints: [ "core-fra01:eth2", "bbs04:eth5" ]
+    - endpoints: [ "core-fra02:eth1", "bbs03:eth6" ]
+    - endpoints: [ "core-fra02:eth2", "bbs04:eth6" ]
