@@ -2,6 +2,6 @@
 
 
 <figure markdown="span">
-  ![Image title](/docs/topology.png){ width="300" }
+  ![Image title](/docs/topology.png)
   <figcaption>Topology</figcaption>
 </figure>
